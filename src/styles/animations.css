@@ -1,0 +1,60 @@
+
+@keyframes gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes letter-assemble {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) rotate(45deg) scale(0.5);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(25px) rotate(22.5deg) scale(0.75);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0) scale(1);
+  }
+}
+
+.animate-gradient {
+  animation: gradient 3s ease infinite;
+  background-size: 200% auto;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-bounce {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.letter-animation {
+  display: inline-block;
+  opacity: 0;
+  animation: letter-assemble 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+

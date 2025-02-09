@@ -1,0 +1,19 @@
+.glass-card {
+  @apply backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl transition-all duration-300;
+}
+
+.glass-card:hover {
+  @apply bg-white/10 transform scale-[1.02];
+}
+
+.highlight-card {
+  @apply glass-card p-6 space-y-4;
+}
+
+.nav-link {
+  @apply transition-colors duration-200 hover:text-cricket-green text-foreground;
+}
+
+.nav-link.active {
+  @apply text-cricket-green;
+}
