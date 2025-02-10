@@ -1,4 +1,4 @@
-import { useState } from "react";
+/*import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { Card } from "@/components/ui/card";
 import {
@@ -113,6 +113,26 @@ const HighlightsPage = () => {
             </div>
           ))}
         </div>
+      </div>
+    </div>
+  );
+};
+
+export default HighlightsPage;
+*/
+
+
+
+//cooking page
+
+import Navbar from "@/components/Navbar";
+
+const HighlightsPage = () => {
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <Navbar />
+      <div className="flex-grow flex items-center justify-center">
+        <h1 className="text-4xl font-bold text-foreground">Page is cooking...</h1>
       </div>
     </div>
   );
