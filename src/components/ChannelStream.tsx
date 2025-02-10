@@ -22,10 +22,11 @@ const ChannelStream = () => {
       const now = new Date();
       const currentTime = format(now, "HH:mm");
       const currentDate = format(now, "yyyy-MM-dd");
-      
-      const isTimeValid = currentTime >= channel.startTime && currentTime <= channel.endTime;
+
+      const isTimeValid =
+        currentTime >= channel.startTime && currentTime <= channel.endTime;
       const isDateValid = channel.match?.date === currentDate;
-      
+
       const isValid = isTimeValid && isDateValid;
       setIsAvailable(isValid);
 
@@ -41,7 +42,7 @@ const ChannelStream = () => {
         toast({
           variant: "destructive",
           title: "Match Unavailable",
-          description: message
+          description: message,
         });
       }
     };
@@ -67,9 +68,12 @@ const ChannelStream = () => {
           <ArrowLeft className="mr-2" /> Back to Channels
         </Button>
         <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4">
-          <h2 className="text-2xl font-bold text-muted-foreground">Match Currently Unavailable</h2>
+          <h2 className="text-2xl font-bold text-muted-foreground">
+            Match Currently Unavailable
+          </h2>
           <p className="text-muted-foreground text-center">
-            {channel.match?.team1} vs {channel.match?.team2} will be available on {channel.match?.date} <br />
+            {channel.match?.team1} vs {channel.match?.team2} will be available
+            on {channel.match?.date} <br />
             between {channel.startTime} and {channel.endTime}
           </p>
         </div>
@@ -90,14 +94,16 @@ const ChannelStream = () => {
         <h1 className="text-3xl font-bold">
           {channel.match?.team1} vs {channel.match?.team2}
         </h1>
-        <p className="text-muted-foreground">
-          Live Match - {channel.match?.date}
-        </p>
+        <p className="text-muted-foreground">Live Match - {channel.match?.date}</p>
       </div>
-      <VideoPlayer
-        src={channel.streamUrl}
-        isLive
-      />
+
+      {/* If it's TNT Sports 1, load tnt-1.html inside an iframe */}
+      {channel.id === "tnt-1" ? (
+        <VideoPlayer src="/videos/tnt-1.html" isIframe={true} isLive />
+      ) : (
+        <VideoPlayer src={channel.streamUrl} isLive />
+      )}
+      
     </div>
   );
 };

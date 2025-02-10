@@ -1,28 +1,42 @@
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import MatchCard from "@/components/MatchCard";
-
-const upcomingMatches = [
-  {
-    team1: "India",
-    team2: "Australia",
-    time: "Tomorrow, 14:30",
-    thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-  },
-  {
-    team1: "England",
-    team2: "South Africa",
-    time: "Today, 19:00",
-    thumbnail: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
-  },
-  {
-    team1: "New Zealand",
-    team2: "Pakistan",
-    time: "Saturday, 16:00",
-    thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-  },
-];
+import { channels } from "@/config/channels";
+import { format, parse } from "date-fns";
 
 const UpcomingMatchesPage = () => {
+  const [currentTime, setCurrentTime] = useState(format(new Date(), "HH:mm"));
+  const [currentDate, setCurrentDate] = useState(format(new Date(), "yyyy-MM-dd"));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      setCurrentTime(format(now, "HH:mm"));
+      setCurrentDate(format(now, "yyyy-MM-dd"));
+    }, 60000); // Update every minute
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Fetch upcoming matches from channels.ts
+  const upcomingMatches = channels
+    .filter(channel => channel.match)
+    .map(channel => ({
+      team1: channel.match!.team1,
+      team2: channel.match!.team2,
+      date: channel.match!.date, // YYYY-MM-DD format
+      time: channel.startTime, // HH:mm format
+      thumbnail: "/images/ind-vs-eng-odi-feb-2025.jpg", 
+    }))
+    .filter(match => {
+      // Convert match date & time into comparable formats
+      const matchDate = match.date;
+      const matchTime = match.time;
+
+      // Remove if the match has already started
+      return matchDate > currentDate || (matchDate === currentDate && matchTime > currentTime);
+    });
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -30,13 +44,24 @@ const UpcomingMatchesPage = () => {
         <h1 className="text-4xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-cricket-green to-cricket-orange">
           Upcoming Matches
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {upcomingMatches.map((match, index) => (
-            <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
-              <MatchCard {...match} />
-            </div>
-          ))}
-        </div>
+        {upcomingMatches.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {upcomingMatches.map((match, index) => (
+              <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 200}ms` }}>
+                <MatchCard 
+                  team1={match.team1} 
+                  team2={match.team2} 
+                  time={`${match.date}, ${match.time}`} 
+                  thumbnail={match.thumbnail} 
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-muted-foreground text-lg">
+            No upcoming matches at the moment.
+          </p>
+        )}
       </div>
     </div>
   );

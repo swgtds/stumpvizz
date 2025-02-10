@@ -1,15 +1,24 @@
-import React from 'react';
+import React from "react";
 
 interface VideoPlayerProps {
   src?: string;
   poster?: string;
   isLive?: boolean;
+  isIframe?: boolean; // New prop to determine if it's an iframe
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, poster, isLive }) => {
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, poster, isLive, isIframe }) => {
   return (
     <div className="relative w-full aspect-video bg-cricket-navy rounded-lg overflow-hidden">
-      {src ? (
+      {isIframe ? (
+        <iframe
+          src={src} // Load the HTML page inside the iframe
+          width="100%"
+          height="100%"
+          style={{ border: "none" }}
+          allowFullScreen
+        ></iframe>
+      ) : src ? (
         <video
           className="w-full h-full object-cover"
           poster={poster}
