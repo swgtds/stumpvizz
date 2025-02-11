@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import MatchCard from "@/components/MatchCard";
 import { channels } from "@/config/channels";
-import { format, parse } from "date-fns";
+import { format } from "date-fns";
 
 const UpcomingMatchesPage = () => {
   const [currentTime, setCurrentTime] = useState(format(new Date(), "HH:mm"));
@@ -24,17 +24,12 @@ const UpcomingMatchesPage = () => {
     .map(channel => ({
       team1: channel.match!.team1,
       team2: channel.match!.team2,
-      date: channel.match!.date, // YYYY-MM-DD format
-      time: channel.startTime, // HH:mm format
-      thumbnail: "/images/ind-vs-eng-odi-feb-2025.jpg", 
+      date: channel.match!.date,
+      time: channel.startTime,
+      thumbnail: channel.match!.thumbnail, 
     }))
     .filter(match => {
-      // Convert match date & time into comparable formats
-      const matchDate = match.date;
-      const matchTime = match.time;
-
-      // Remove if the match has already started
-      return matchDate > currentDate || (matchDate === currentDate && matchTime > currentTime);
+      return match.date > currentDate || (match.date === currentDate && match.time > currentTime);
     });
 
   return (
@@ -51,7 +46,8 @@ const UpcomingMatchesPage = () => {
                 <MatchCard 
                   team1={match.team1} 
                   team2={match.team2} 
-                  time={`${match.date}, ${match.time}`} 
+                  time={match.time} 
+                  date={match.date} 
                   thumbnail={match.thumbnail} 
                 />
               </div>

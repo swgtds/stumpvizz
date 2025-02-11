@@ -57,7 +57,7 @@ const LiveStreamPage = () => {
                   time={`${channel.startTime} - ${channel.endTime}`}
                   date={channel.match?.date}
                   isLive={true}
-                  thumbnail="/placeholder.svg"
+                  thumbnail={channel.match?.thumbnail || "/placeholder.svg"} // Fetching thumbnail from channels.ts
                   onClick={() => navigate(`/live-stream/${channel.id}`)}
                 />
               </div>
