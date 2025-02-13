@@ -7,6 +7,18 @@ import { ArrowLeft } from "lucide-react";
 import VideoPlayer from "./VideoPlayer";
 import { format } from "date-fns";
 
+// Converts "yyyy-mm-dd" to "dd mm, yyyy"
+const formatDate = (dateStr: string) => {
+  const date = new Date(dateStr);
+  return format(date, "do MMM, yyyy"); 
+};
+
+// Converts "hh:mm" to "hh:mm AM/PM"
+const formatTime = (timeStr: string) => {
+  const [hours, minutes] = timeStr.split(":").map(Number);
+  return format(new Date(0, 0, 0, hours, minutes), "h:mm a"); 
+};
+
 const ChannelStream = () => {
   const { channelId } = useParams();
   const { toast } = useToast();
@@ -33,10 +45,10 @@ const ChannelStream = () => {
       if (!isValid) {
         let message = "Match is not available. ";
         if (!isDateValid) {
-          message += `This match is scheduled for ${channel.match?.date}. `;
+          message += `This match is scheduled for ${formatDate(channel.match?.date)}. `;
         }
         if (!isTimeValid) {
-          message += `Live streaming is only available between ${channel.startTime} and ${channel.endTime}.`;
+          message += `Live streaming is only available between ${formatTime(channel.startTime)} and ${formatTime(channel.endTime)}.`;
         }
 
         toast({
@@ -72,9 +84,10 @@ const ChannelStream = () => {
             Match Currently Unavailable
           </h2>
           <p className="text-muted-foreground text-center">
-            {channel.match?.team1} vs {channel.match?.team2} will be available
-            on {channel.match?.date} <br />
-            between {channel.startTime} and {channel.endTime}
+            {channel.match?.team1} vs {channel.match?.team2} will be available on{" "}
+            <strong>{formatDate(channel.match?.date)}</strong> <br />
+            between <strong>{formatTime(channel.startTime)}</strong> and{" "}
+            <strong>{formatTime(channel.endTime)}</strong>.
           </p>
         </div>
       </div>
@@ -94,16 +107,13 @@ const ChannelStream = () => {
         <h1 className="text-3xl font-bold">
           {channel.match?.team1} vs {channel.match?.team2}
         </h1>
-        <p className="text-muted-foreground">Live Match - {channel.match?.date}</p>
+        <p className="text-muted-foreground">
+          Live Match - {formatDate(channel.match?.date)}
+        </p>
       </div>
-
-      {/* If it's TNT Sports 1, load tnt-1.html inside an iframe */}
-      {channel.id === "tnt-1" ? (
-        <VideoPlayer src="/videos/tnt-1.html" isIframe={true} isLive />
-      ) : (
-        <VideoPlayer src={channel.streamUrl} isLive />
-      )}
-      
+      <div className="w-full max-w-screen-lg mx-auto aspect-video">
+        <VideoPlayer src={channel.streamUrl} isIframe={true} isLive />
+      </div>
     </div>
   );
 };

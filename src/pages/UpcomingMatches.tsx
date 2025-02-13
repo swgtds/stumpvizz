@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import MatchCard from "@/components/MatchCard";
 import { channels } from "@/config/channels";
-import { format } from "date-fns";
+import { format, isAfter, isEqual, parse } from "date-fns";
 
 const UpcomingMatchesPage = () => {
   const [currentTime, setCurrentTime] = useState(format(new Date(), "HH:mm"));
@@ -18,19 +18,39 @@ const UpcomingMatchesPage = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Converts "yyyy-mm-dd" to "dd mm, yyyy"
+  const formatDate = (dateStr: string): string => {
+    return format(new Date(dateStr), "do MMM, yyyy"); 
+  };
+
+  // Converts "hh:mm" to "hh:mm AM/PM"
+  const formatTime = (time: string): string => {
+    const [hours, minutes] = time.split(":").map(Number);
+    const suffix = hours >= 12 ? "PM" : "AM";
+    const formattedHours = hours % 12 || 12;
+    return `${formattedHours}:${minutes.toString().padStart(2, "0")} ${suffix}`;
+  };
+
   // Fetch upcoming matches from channels.ts
   const upcomingMatches = channels
     .filter(channel => channel.match)
+    .filter(channel => {
+      const matchDate = channel.match!.date; 
+      const isFutureMatch = isAfter(parse(matchDate, "yyyy-MM-dd", new Date()), parse(currentDate, "yyyy-MM-dd", new Date()));
+
+      // If match is today, check if its time is still upcoming
+      const isTodayMatch = isEqual(parse(matchDate, "yyyy-MM-dd", new Date()), parse(currentDate, "yyyy-MM-dd", new Date()));
+      const isUpcomingToday = isTodayMatch && channel.startTime > currentTime;
+
+      return isFutureMatch || isUpcomingToday;
+    })
     .map(channel => ({
       team1: channel.match!.team1,
       team2: channel.match!.team2,
-      date: channel.match!.date,
-      time: channel.startTime,
+      date: formatDate(channel.match!.date),
+      time: formatTime(channel.startTime),
       thumbnail: channel.match!.thumbnail, 
-    }))
-    .filter(match => {
-      return match.date > currentDate || (match.date === currentDate && match.time > currentTime);
-    });
+    }));
 
   return (
     <div className="min-h-screen bg-background">

@@ -22,12 +22,26 @@ const LiveStreamPage = () => {
     return () => clearInterval(interval);
   }, []);
 
+ 
+  // Converts "yyyy-mm-dd" to "dd mm, yyyy"
+  const formatDate = (dateStr: string): string => {
+    return format(new Date(dateStr), "do MMM, yyyy");
+  };
+
+   // Converts "hh:mm" to "hh:mm AM/PM"
+  const formatTime = (time: string): string => {
+    const [hours, minutes] = time.split(":").map(Number);
+    const suffix = hours >= 12 ? "PM" : "AM";
+    const formattedHours = hours % 12 || 12;
+    return `${formattedHours}:${minutes.toString().padStart(2, "0")} ${suffix}`;
+  };
+
   // Helper function to compare times
   const isTimeInRange = (startTime: string, endTime: string, currentTime: string) => {
     const start = parse(startTime, "HH:mm", new Date());
     const end = parse(endTime, "HH:mm", new Date());
     const current = parse(currentTime, "HH:mm", new Date());
-    
+
     return current >= start && current <= end;
   };
 
@@ -54,8 +68,8 @@ const LiveStreamPage = () => {
                 <MatchCard
                   team1={channel.match?.team1 || ""}
                   team2={channel.match?.team2 || ""}
-                  time={`${channel.startTime} - ${channel.endTime}`}
-                  date={channel.match?.date}
+                  time={`${formatTime(channel.startTime)} - ${formatTime(channel.endTime)}`}
+                  date={formatDate(channel.match?.date)}
                   isLive={true}
                   thumbnail={channel.match?.thumbnail || "/placeholder.svg"} // Fetching thumbnail from channels.ts
                   onClick={() => navigate(`/live-stream/${channel.id}`)}
