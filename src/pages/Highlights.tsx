@@ -1,4 +1,4 @@
-/*import { useState } from "react";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { Card } from "@/components/ui/card";
 import {
@@ -119,10 +119,10 @@ const HighlightsPage = () => {
 };
 
 export default HighlightsPage;
-*/
 
 
 
+/*
 //cooking page
 
 import Navbar from "@/components/Navbar";
@@ -139,3 +139,4 @@ const HighlightsPage = () => {
 };
 
 export default HighlightsPage;
+*/
