@@ -14,15 +14,15 @@ export interface Channel {
   
   export const womenChannels: Channel[] = [
     {
-      id: "ind-w-vs-aus-w",
+      id: "mi-w-vs-dc-w",
       name: "Women's Match 1",
-      startTime: "13:00",
-      endTime: "21:00",
-      streamUrl: "/videos/women-match-1.html",
+      startTime: "19:30",
+      endTime: "23:00",
+      streamUrl: "/videos/fox-cricket.html",
       match: {
-        team1: "India Women",
-        team2: "Australia Women",
-        date: "2025-02-19",
+        team1: "Mumbai Indians",
+        team2: "Delhi Capitals",
+        date: "2025-02-15",
         thumbnail: "https://bsmedia.business-standard.com/_media/bs/img/article/2025-01/17/full/1737096327-3013.jpg?im=FeatureCrop,size=(826,465)",
       },
     },
@@ -31,7 +31,7 @@ export interface Channel {
       name: "Women's Match 2",
       startTime: "14:00",
       endTime: "22:30",
-      streamUrl: "/videos/women-match-2.html",
+      streamUrl: "/videos/fox-cricket.html",
       match: {
         team1: "England Women",
         team2: "South Africa Women",
@@ -44,7 +44,7 @@ export interface Channel {
       name: "Women's Match 3",
       startTime: "15:30",
       endTime: "23:00",
-      streamUrl: "/videos/women-match-3.html",
+      streamUrl: "/videos/fox-cricket.html",
       match: {
         team1: "Pakistan Women",
         team2: "New Zealand Women",
@@ -57,7 +57,7 @@ export interface Channel {
       name: "Women's Match 4",
       startTime: "12:00",
       endTime: "20:00",
-      streamUrl: "/videos/women-match-4.html",
+      streamUrl: "/videos/fox-cricket.html",
       match: {
         team1: "West Indies Women",
         team2: "Bangladesh Women",
@@ -70,7 +70,7 @@ export interface Channel {
       name: "Women's Match 5",
       startTime: "16:00",
       endTime: "23:30",
-      streamUrl: "/videos/women-match-5.html",
+      streamUrl: "/videos/fox-cricket.html",
       match: {
         team1: "India Women",
         team2: "Pakistan Women",
