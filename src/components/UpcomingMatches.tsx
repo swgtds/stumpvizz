@@ -1,36 +1,64 @@
-import React from 'react';
-import MatchCard from './MatchCard';
-
-const upcomingMatches = [
-  {
-    team1: "India",
-    team2: "Australia",
-    time: "Tomorrow, 14:30",
-    thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-  },
-  {
-    team1: "England",
-    team2: "South Africa",
-    time: "Today, 19:00",
-    thumbnail: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
-  },
-  {
-    team1: "New Zealand",
-    team2: "Pakistan",
-    time: "Saturday, 16:00",
-    thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-  },
-];
+import MatchCard from "./MatchCard";
+import { channels } from "@/config/channels";
+import { womenChannels } from "@/config/women-channels";
+import { format } from "date-fns";
 
 const UpcomingMatches = () => {
+  const currentDate = format(new Date(), "yyyy-MM-dd");
+
+  // Filter upcoming matches for men and women separately
+  const upcomingMenMatches = channels.filter(
+    (channel) => channel.match && channel.match.date > currentDate
+  );
+
+  const upcomingWomenMatches = womenChannels.filter(
+    (channel) => channel.match && channel.match.date > currentDate
+  );
+
   return (
     <section className="py-8">
       <h2 className="text-2xl font-bold text-white mb-6">Upcoming Matches</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {upcomingMatches.map((match, index) => (
-          <MatchCard key={index} {...match} />
-        ))}
-      </div>
+
+      {/* Men's Cricket Matches Section */}
+      {upcomingMenMatches.length > 0 && (
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-white mb-4">Men's Cricket</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {upcomingMenMatches.map((channel) => (
+              <MatchCard
+                key={channel.id}
+                team1={channel.match?.team1 || ""}
+                team2={channel.match?.team2 || ""}
+                time={`Starts at ${channel.startTime}`}
+                thumbnail={channel.match?.thumbnail || "/placeholder.svg"}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Women's Cricket Matches Section */}
+      {upcomingWomenMatches.length > 0 && (
+        <div>
+          <h3 className="text-xl font-semibold text-white mb-4">Women's Cricket</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {upcomingWomenMatches.map((channel) => (
+              <MatchCard
+                key={channel.id}
+                team1={channel.match?.team1 || ""}
+                team2={channel.match?.team2 || ""}
+                time={`Starts at ${channel.startTime}`}
+                thumbnail={channel.match?.thumbnail || "/placeholder.svg"}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Fallback Message */}
+      {upcomingMenMatches.length === 0 && upcomingWomenMatches.length === 0 && (
+        <p className="text-white">No upcoming matches available.</p>
+      )}
     </section>
   );
 };
