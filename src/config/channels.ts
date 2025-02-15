@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export interface Channel {
   id: string;
   name: string;
@@ -12,7 +14,11 @@ export interface Channel {
   };
 }
 
-export const channels: Channel[] = [
+// Get today's date in "YYYY-MM-DD" format
+const currentDate = format(new Date(), "yyyy-MM-dd");
+
+// All matches (before filtering)
+const allChannels: Channel[] = [
   {
     id: "pak-vs-nz",
     name: "Live Match 1",
@@ -27,7 +33,7 @@ export const channels: Channel[] = [
     },
   },
   {
-    id: "ind-vs-bangladesh",
+    id: "ind-vs-ban",
     name: "Live Match 2",
     startTime: "14:30",
     endTime: "23:00",
@@ -79,3 +85,8 @@ export const channels: Channel[] = [
     },
   },
 ];
+
+// Filter out past matches (keep only future & today's matches)
+export const channels = allChannels.filter(
+  (channel) => channel.match && channel.match.date >= currentDate
+);
