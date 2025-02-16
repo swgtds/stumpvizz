@@ -24,7 +24,7 @@ const allWomenChannels: Channel[] = [
     name: "Women's Match 1",
     startTime: "19:30",
     endTime: "23:00",
-    streamUrl: "/videos/fox-cricket.html",
+    streamUrl: "/videos/star-sports-1.html",
     match: {
       team1: "Gujarat Giants",
       team2: "UP Warriorz",
@@ -37,7 +37,7 @@ const allWomenChannels: Channel[] = [
     name: "Women's Match 2",
     startTime: "19:30",
     endTime: "23:00",
-    streamUrl: "/videos/fox-cricket.html",
+    streamUrl: "/videos/star-sports-1.html",
     match: {
       team1: "Delhi Capitals",
       team2: "Royal Challengers Bangalore",
@@ -50,7 +50,7 @@ const allWomenChannels: Channel[] = [
     name: "Women's Match 3",
     startTime: "19:30",
     endTime: "23:00",
-    streamUrl: "/videos/fox-cricket.html",
+    streamUrl: "/videos/star-sports-1.html",
     match: {
       team1: "Gujarat Giants",
       team2: "Mumbai Indians",
@@ -63,7 +63,7 @@ const allWomenChannels: Channel[] = [
     name: "Women's Match 4",
     startTime: "19:30",
     endTime: "23:00",
-    streamUrl: "/videos/fox-cricket.html",
+    streamUrl: "/videos/star-sports-1.html",
     match: {
       team1: "UP Warriorz",
       team2: "Delhi Capitals",
@@ -76,7 +76,7 @@ const allWomenChannels: Channel[] = [
     name: "Women's Match 5",
     startTime: "19:30",
     endTime: "23:00",
-    streamUrl: "/videos/fox-cricket.html",
+    streamUrl: "/videos/star-sports-1.html",
     match: {
       team1: "Royal Challengers Bangalore",
       team2: "Mumbai Indians",
