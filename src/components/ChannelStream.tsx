@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { channels } from "@/config/channels";
+import { womenChannels } from "@/config/women-channels";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -25,7 +26,11 @@ const ChannelStream = () => {
   const navigate = useNavigate();
   const [isAvailable, setIsAvailable] = useState(false);
 
-  const channel = channels.find((c) => c.id === channelId);
+  // Merge men's and women's channels
+  const allChannels = [...channels, ...womenChannels];
+
+  // Find the channel (whether men's or women's)
+  const channel = allChannels.find((c) => c.id === channelId);
 
   useEffect(() => {
     if (!channel) return;
