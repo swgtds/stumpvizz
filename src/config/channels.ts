@@ -24,7 +24,7 @@ const allChannels: Channel[] = [
     name: "Live Match 1",
     startTime: "14:30",
     endTime: "23:00",
-    streamUrl: "/videos/willow-cricket.html",
+    streamUrl: "/videos/sky-sports-cricket.html",
     match: {
       team1: "Pakistan",
       team2: "New Zealand",
@@ -37,7 +37,7 @@ const allChannels: Channel[] = [
     name: "Live Match 2",
     startTime: "14:30",
     endTime: "23:00",
-    streamUrl: "/videos/willow-cricket.html",
+    streamUrl: "/videos/sky-sports-cricket.html",
     match: {
       team1: "India",
       team2: "Bangladesh",
@@ -50,7 +50,7 @@ const allChannels: Channel[] = [
     name: "Live Match 3",
     startTime: "14:30",
     endTime: "23:00",
-    streamUrl: "/videos/willow-cricket.html",
+    streamUrl: "/videos/sky-sports-cricket.html",
     match: {
       team1: "Afghanistan",
       team2: "South Africa",
@@ -63,7 +63,7 @@ const allChannels: Channel[] = [
     name: "Live Match 4",
     startTime: "14:30",
     endTime: "23:00",
-    streamUrl: "/videos/willow-cricket.html",
+    streamUrl: "/videos/sky-sports-cricket.html",
     match: {
       team1: "Australia",
       team2: "England",
@@ -76,7 +76,7 @@ const allChannels: Channel[] = [
     name: "Live Match 5",
     startTime: "14:30",
     endTime: "23:00",
-    streamUrl: "/videos/willow-cricket.html",
+    streamUrl: "/videos/sky-sports-cricket.html",
     match: {
       team1: "India",
       team2: "Pakistan",
