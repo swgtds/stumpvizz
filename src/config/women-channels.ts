@@ -24,7 +24,7 @@ const allWomenChannels: Channel[] = [
     name: "Women's Match 1",
     startTime: "19:30",
     endTime: "23:00",
-    streamUrl: "/videos/star-sports-1.html",
+    streamUrl: "/videos/fox-cricket.html",
     match: {
       team1: "Gujarat Giants",
       team2: "UP Warriorz",
