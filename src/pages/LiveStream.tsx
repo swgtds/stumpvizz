@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
-import { channels } from "@/config/channels";
-import { womenChannels } from "@/config/women-channels";
+import { fetchChannels } from "@/config/channels"; // Fetch men's matches
+import { fetchWomenChannels } from "@/config/women-channels"; // Fetch women's matches
 import MatchCard from "@/components/MatchCard";
 import { useNavigate, Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
@@ -13,22 +13,36 @@ const LiveStreamPage = () => {
   const [currentTime, setCurrentTime] = useState(format(new Date(), "HH:mm"));
   const [currentDate, setCurrentDate] = useState(format(new Date(), "yyyy-MM-dd"));
 
+  const [menMatches, setMenMatches] = useState([]); // Store fetched men's matches
+  const [womenMatches, setWomenMatches] = useState([]); // Store fetched women's matches
+
+  // Fetch matches from backend on component mount
+  useEffect(() => {
+    const fetchMatches = async () => {
+      try {
+        const menData = await fetchChannels();
+        const womenData = await fetchWomenChannels();
+        setMenMatches(menData);
+        setWomenMatches(womenData);
+      } catch (error) {
+        console.error("Error fetching matches:", error);
+      }
+    };
+    fetchMatches();
+  }, []);
+
+  // Update current time every minute
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
       setCurrentTime(format(now, "HH:mm"));
       setCurrentDate(format(now, "yyyy-MM-dd"));
-    }, 60000); // Update every minute
-
+    }, 60000);
     return () => clearInterval(interval);
   }, []);
 
-  // Converts "yyyy-mm-dd" to "dd mm, yyyy"
-  const formatDate = (dateStr: string): string => {
-    return format(new Date(dateStr), "do MMM, yyyy");
-  };
+  const formatDate = (dateStr: string): string => format(new Date(dateStr), "do MMM, yyyy");
 
-  // Converts "hh:mm" to "hh:mm AM/PM"
   const formatTime = (time: string): string => {
     const [hours, minutes] = time.split(":").map(Number);
     const suffix = hours >= 12 ? "PM" : "AM";
@@ -36,28 +50,20 @@ const LiveStreamPage = () => {
     return `${formattedHours}:${minutes.toString().padStart(2, "0")} ${suffix}`;
   };
 
-  // Helper function to compare times
   const isTimeInRange = (startTime: string, endTime: string, currentTime: string) => {
     const start = parse(startTime, "HH:mm", new Date());
     const end = parse(endTime, "HH:mm", new Date());
     const current = parse(currentTime, "HH:mm", new Date());
-
     return current >= start && current <= end;
   };
 
-  // Filter live men's matches
-  const liveMenMatches = channels.filter(channel => {
-    const isMatchToday = channel.match?.date === currentDate;
-    const isWithinTimeRange = isTimeInRange(channel.startTime, channel.endTime, currentTime);
-    return isMatchToday && isWithinTimeRange;
-  });
+  const liveMenMatches = menMatches.filter(
+    (channel) => channel.match?.date === currentDate && isTimeInRange(channel.startTime, channel.endTime, currentTime)
+  );
 
-  // Filter live women's matches
-  const liveWomenMatches = womenChannels.filter(channel => {
-    const isMatchToday = channel.match?.date === currentDate;
-    const isWithinTimeRange = isTimeInRange(channel.startTime, channel.endTime, currentTime);
-    return isMatchToday && isWithinTimeRange;
-  });
+  const liveWomenMatches = womenMatches.filter(
+    (channel) => channel.match?.date === currentDate && isTimeInRange(channel.startTime, channel.endTime, currentTime)
+  );
 
   return (
     <div className="min-h-screen bg-background">

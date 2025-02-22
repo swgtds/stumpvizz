@@ -1,30 +1,44 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import MatchCard from "@/components/MatchCard";
-import { channels } from "@/config/channels";
-import { womenChannels } from "@/config/women-channels";
+import { fetchChannels } from "@/config/channels"; // Fetch men's matches dynamically
+import { fetchWomenChannels } from "@/config/women-channels"; // Fetch women's matches dynamically
 import { format, isAfter, isEqual, parse } from "date-fns";
 
 const UpcomingMatchesPage = () => {
   const [currentTime, setCurrentTime] = useState(format(new Date(), "HH:mm"));
   const [currentDate, setCurrentDate] = useState(format(new Date(), "yyyy-MM-dd"));
 
+  const [menMatches, setMenMatches] = useState([]); // Store fetched men's matches
+  const [womenMatches, setWomenMatches] = useState([]); // Store fetched women's matches
+
+  // Fetch matches from backend on component mount
+  useEffect(() => {
+    const fetchMatches = async () => {
+      try {
+        const menData = await fetchChannels();
+        const womenData = await fetchWomenChannels();
+        setMenMatches(menData);
+        setWomenMatches(womenData);
+      } catch (error) {
+        console.error("Error fetching matches:", error);
+      }
+    };
+    fetchMatches();
+  }, []);
+
+  // Update current time every minute
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
       setCurrentTime(format(now, "HH:mm"));
       setCurrentDate(format(now, "yyyy-MM-dd"));
-    }, 60000); // Update every minute
-
+    }, 60000);
     return () => clearInterval(interval);
   }, []);
 
-  // Function to format date (e.g., "13th Feb, 2025")
-  const formatDate = (dateStr: string): string => {
-    return format(new Date(dateStr), "do MMM, yyyy");
-  };
+  const formatDate = (dateStr: string): string => format(new Date(dateStr), "do MMM, yyyy");
 
-  // Function to format time (e.g., "3:45 PM")
   const formatTime = (time: string): string => {
     const [hours, minutes] = time.split(":").map(Number);
     const suffix = hours >= 12 ? "PM" : "AM";
@@ -33,7 +47,7 @@ const UpcomingMatchesPage = () => {
   };
 
   // Function to filter upcoming matches
-  const getUpcomingMatches = (matches: typeof channels) =>
+  const getUpcomingMatches = (matches: any[]) =>
     matches
       .filter(channel => channel.match)
       .filter(channel => {
@@ -60,8 +74,8 @@ const UpcomingMatchesPage = () => {
         thumbnail: channel.match!.thumbnail,
       }));
 
-  const menUpcomingMatches = getUpcomingMatches(channels);
-  const womenUpcomingMatches = getUpcomingMatches(womenChannels);
+  const menUpcomingMatches = getUpcomingMatches(menMatches);
+  const womenUpcomingMatches = getUpcomingMatches(womenMatches);
 
   return (
     <div className="min-h-screen bg-background">

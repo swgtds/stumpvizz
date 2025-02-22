@@ -1,19 +1,37 @@
+import { useState, useEffect } from "react";
 import MatchCard from "./MatchCard";
-import { channels } from "@/config/channels";
-import { womenChannels } from "@/config/women-channels";
-import { format } from "date-fns";
+import { fetchChannels } from "@/config/channels"; // Fetch men's matches dynamically
+import { fetchWomenChannels } from "@/config/women-channels"; // Fetch women's matches dynamically
+import { format, isAfter, parse } from "date-fns";
 
 const UpcomingMatches = () => {
+  const [menMatches, setMenMatches] = useState([]); // Store fetched men's matches
+  const [womenMatches, setWomenMatches] = useState([]); // Store fetched women's matches
   const currentDate = format(new Date(), "yyyy-MM-dd");
 
-  // Filter upcoming matches for men and women separately
-  const upcomingMenMatches = channels.filter(
-    (channel) => channel.match && channel.match.date > currentDate
-  );
+  useEffect(() => {
+    const fetchMatches = async () => {
+      try {
+        const menData = await fetchChannels();
+        const womenData = await fetchWomenChannels();
+        setMenMatches(menData);
+        setWomenMatches(womenData);
+      } catch (error) {
+        console.error("Error fetching matches:", error);
+      }
+    };
+    fetchMatches();
+  }, []);
 
-  const upcomingWomenMatches = womenChannels.filter(
-    (channel) => channel.match && channel.match.date > currentDate
-  );
+  // Function to filter upcoming matches
+  const getUpcomingMatches = (matches: any[]) =>
+    matches.filter(channel => 
+      channel.match &&
+      isAfter(parse(channel.match.date, "yyyy-MM-dd", new Date()), parse(currentDate, "yyyy-MM-dd", new Date()))
+    );
+
+  const upcomingMenMatches = getUpcomingMatches(menMatches);
+  const upcomingWomenMatches = getUpcomingMatches(womenMatches);
 
   return (
     <section className="py-8">
