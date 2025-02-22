@@ -74,7 +74,7 @@ const allChannels: Channel[] = [
   {
     id: "ind-vs-pak",
     name: "Live Match 5",
-    startTime: "14:30",
+    startTime: "14:20",
     endTime: "23:00",
     streamUrl: "/videos/prime.html",
     match: {
