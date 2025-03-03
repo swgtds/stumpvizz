@@ -3,24 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fox Cricket</title>
+    <title>Star Sports 1</title>
     <style>
-        html, body {
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
             margin: 0;
-            padding: 0;
+        }
+        .ad-container {
             width: 100%;
-            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+            min-height: 100px;
             overflow: hidden;
-            background-color: #000;
+        }
+        .iframe-container {
+            position: relative;
+            width: 92%;
+            height: 65vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         iframe {
-            width: 100vw;
-            height: 100vh;
-            border: none;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
+    <script type='text/javascript' src='//eltontry.com/09/f1/e9/09f1e956c711aea6a898d5abbb78d092.js'></script>
+    <script type='text/javascript' src='//eltontry.com/de/9a/8b/de9a8b3019752970ae15f259ad4a7fa0.js'></script>
 <body>
-    <iframe src="https://tapmadtv.live/play.php?c=star1in" allowfullscreen></iframe>
+
+
+    <!-- iFrame Section with Logic for Manual Obfuscation -->
+    <div class="iframe-container">
+        <script>
+            function loadIframe() {
+                let iframe = document.createElement("iframe");
+                let iframeSrc = "https://vimeo.com/event/4959437/embed"; // Keep URL visible for manual obfuscation later
+                iframe.src = iframeSrc;
+                iframe.setAttribute("frameborder", "0");
+                iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
+                iframe.setAttribute("allowfullscreen", "");
+                document.querySelector(".iframe-container").appendChild(iframe);
+            }
+            loadIframe(); // Call the function to insert iframe
+        </script>
+    </div>
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
+
 </body>
 </html>
