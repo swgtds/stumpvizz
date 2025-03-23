@@ -1,49 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <script src="https://ssl.p.jwpcdn.com/player/v/8.32.1/jwplayer.js" type="text/javascript"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T-Sports</title>
+    <link href="" rel="icon" type="image/x-icon" />
+    <title> Live</title>
+    <style>
+        .video-js {
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            text-align: center;
+            margin: 0;
+        }
+        #videojs {
+            width: 100%;
+            height: 100%;
+        }
+        .streaming-dimensions {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        #container {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #8a0000;
+            color: #fff;
+            overflow: hidden;
+        }
+        #iframe, #jwPlayer {
+            height: 100vh !important;
+            padding: 0;
+            margin: 0;
+        }
+        body {
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        #container {
+            position: absolute;
+            text-align: center;
+        }
+        video {
+            outline: 0;
+        }
+        #text {
+            position: fixed;
+            border: 0;
+            left: 0;
+            width: 100%;
+            color: #fff;
+            bottom: 50px;
+            text-align: center;
+            font-family: tahoma;
+            font-size: 20px;
+            z-index: 9999;
+        }
+    </style>
+    <script src="https://yosintv3.github.io/player/SAHhwvZq.js"></script>
+    <script src="https://yosintv3.github.io/player/jwplayer.js"></script>
 </head>
-
-<body>
-    <div id="player-container"></div>
-
-    <script type="text/javascript">
-        jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';  
-
-        jwplayer("player-container").setup({
-            file: "https://live.tsports.com/mobile_hls/tsports_live_2/index.m3u8",
-            aspectratio: '16:9',
-            width: '100%',
-            autostart: true,
-            image: 'https://i.ibb.co/WxSzQfV/Screenshot-2025-01-06-181955.png', 
-            mute: false,
-            preload: 'auto',
-            captions: { color: 'white', fontSize: '16px', backgroundOpacity: 0 },
-            sharing: {
-                sites: ['facebook', 'twitter']
-            }
-        });
-
-        // Ensure playback compatibility for mobile devices
-        jwplayer().on('ready', function () {
-            const player = document.querySelector('#player-container');
-            if (player) {
-                player.style.height = window.innerHeight + 'px';
-            }
-        });
-
-        jwplayer().on('play', function () {
-            document.body.style.backgroundColor = "#000"; 
-        });
-
-        jwplayer().on('error', function (e) {
-            console.error("Playback error:", e.message);
+<body onload="init()">
+    <div id="jwPlayer"></div>
+    <script>
+        // Hardcoded M3U8 URL
+        const hardcodedUrl = "https://v18tataplaysyndication.akamaized.net/bpk-tv/Sports18_1_HD_voot_MOB/output03/index.m3u8?hdnea=exp=1742747374~acl=/*~hmac=95a012999ef5ee39b4047125db76e805af0b253814f48a2de1e04c1b53255ca1";
+        // Setup JW Player with autoplay
+        jwplayer("jwPlayer").setup({
+            file: hardcodedUrl,
+            width: "100%",
+            height: "100%",
+            stretching: "uniform",
+            autostart: true, // Enable autoplay
         });
     </script>
-</body>
 
+</script>
+</body>
+    <script type="text/javascript">
+	atOptions = {
+		'key' : '606e9b2600d90b868cc5baa3430c4328',
+		'format' : 'iframe',
+		'height' : 90,
+		'width' : 728,
+		'params' : {}
+	};
+</script>
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
 </html>
