@@ -1,81 +1,28 @@
 export interface Channel {
   id: string;
   name: string;
-  startTime: string; // 24-hour format "HH:mm"
-  endTime: string; // 24-hour format "HH:mm"
-  streamUrl: string; // Path to the HTML file for embedding
+  startTime: string;
+  endTime: string;
+  streamUrl: string;
   match?: {
     team1: string;
     team2: string;
-    date: string; // YYYY-MM-DD format
-    thumbnail: string; // Image path
+    date: string;
+    thumbnail: string;
   };
-}
+};
 
-export const channels: Channel[] = [
-  {
-    id: "pak-vs-nz",
-    name: "Live Match 1",
-    startTime: "14:30",
-    endTime: "23:00",
-    streamUrl: "/videos/sky-sports-3.html",
-    match: {
-      team1: "Pakistan",
-      team2: "New Zealand",
-      date: "2025-02-19",
-      thumbnail: "https://thesportsprince.com/wp-content/uploads/2024/12/7-2.webp",
-    },
-  },
-  {
-    id: "ind-vs-bangladesh",
-    name: "Live Match 2",
-    startTime: "14:30",
-    endTime: "23:00",
-    streamUrl: "/videos/sky-sports-3.html",
-    match: {
-      team1: "India",
-      team2: "Bangladesh",
-      date: "2025-02-20",
-      thumbnail: "https://thesportsprince.com/wp-content/uploads/2024/12/7-2.webp",
-    },
-  },
-  {
-    id: "afg-vs-sa",
-    name: "Live Match 3",
-    startTime: "14:30",
-    endTime: "23:00",
-    streamUrl: "/videos/sky-sports-3.html",
-    match: {
-      team1: "Afghanistan",
-      team2: "South Africa",
-      date: "2025-02-21",
-      thumbnail: "https://thesportsprince.com/wp-content/uploads/2024/12/7-2.webp",
-    },
-  },
-  {
-    id: "aus-vs-eng",
-    name: "Live Match 4",
-    startTime: "14:30",
-    endTime: "23:00",
-    streamUrl: "/videos/sky-sports-3.html",
-    match: {
-      team1: "Australia",
-      team2: "England",
-      date: "2025-02-22",
-      thumbnail: "https://thesportsprince.com/wp-content/uploads/2024/12/7-2.webp",
-    },
-  },
-  {
-    id: "ind-vs-pak",
-    name: "Live Match 5",
-    startTime: "14:30",
-    endTime: "23:00",
-    streamUrl: "/videos/sky-sports-3.html",
-    match: {
-      team1: "India",
-      team2: "Pakistan",
-      date: "2025-02-23",
-      thumbnail: "https://thesportsprince.com/wp-content/uploads/2024/12/7-2.webp",
-    },
-  },
-];
+// Fetch men's matches from backend
+export const fetchChannels = async (): Promise<Channel[]> => {
+  try {
+    const response = await fetch("https://stumpvizz-backend.onrender.com/api/men-matches"); // Update with correct backend URL
+    if (!response.ok) {
+      throw new Error("Failed to fetch men's matches");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
