@@ -19,7 +19,7 @@ export interface menHighlightChannels {
       team1: "SRH",
       team2: "LSG",
       url: "https://www.hotstar.com/in/sports/cricket/srh-vs-lsg-highlights/1540040197/video/highlights/watch",
-      thumbnail: "https://img10.hotstar.com/image/upload/f_auto,q_90,w_1920/sources/r1/cms/prod/233/1743095350233-i",
+      thumbnail: "/images/srh-vs-lsg-27-mar.png",
       description: "Shardul Thakur's 4/34 curbed Sunrisers Hyderabad to 190/9 before Nicholas Pooran and Mitchell Marsh sealed the chase for Lucknow Super Giants in TATA IPL 2025"
     },
     {
