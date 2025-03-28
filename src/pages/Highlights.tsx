@@ -35,7 +35,7 @@ const HighlightsPage = () => {
   };
   const handleHotstarRedirect = (url: string) => {
     if (isMobile) {
-      const hotstarAppUrl = url.replace('https://www.hotstar.com', 'hotstar://');
+      const hotstarAppUrl = url.replace('https://www.hotstar.com', url);
       
       const appTimeout = setTimeout(() => {
         window.location.href = url;
