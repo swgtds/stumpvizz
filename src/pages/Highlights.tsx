@@ -19,6 +19,7 @@ const HighlightsPage = () => {
   const isMobile = useIsMobile();
 
   const toggleVideo = (matchId: string, url: string) => {
+    // Check if it's a Hotstar link and handle accordingly
     if (isHotstarUrl(url)) {
       handleHotstarRedirect(url);
       return;
@@ -29,34 +30,13 @@ const HighlightsPage = () => {
       [matchId]: !prev[matchId]
     }));
   };
-
   const isHotstarUrl = (url: string): boolean => {
     return url.includes('hotstar.com');
   };
+
   const handleHotstarRedirect = (url: string) => {
-    if (isMobile) {
-      const hotstarAppUrl = url.replace('https://www.hotstar.com', 'hotstar://');
-      
-      const appTimeout = setTimeout(() => {
-        window.location.href = url;
-      }, 2000);
-      const handleVisibilityChange = () => {
-        if (document.hidden) {
-          clearTimeout(appTimeout);
-        }
-      };
-
-      document.addEventListener('visibilitychange', handleVisibilityChange);
-      window.location.href = hotstarAppUrl;
-      setTimeout(() => {
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
-      }, 3000);
-    } else {
-      window.open(url, '_blank');
-    }
+    window.open(url, '_blank');
   };
-
-  // Group highlights by tournament
   const highlightsByTournament = menHighlightChannels.reduce((acc, highlight) => {
     if (!acc[highlight.tournament]) {
       acc[highlight.tournament] = [];
