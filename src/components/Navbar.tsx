@@ -54,7 +54,7 @@ const Navbar = () => {
             Stumpvizz
           </Link>
           <div className="flex items-center gap-2">
-            <SearchBar />
+            {/* <SearchBar /> */}
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
@@ -93,7 +93,7 @@ const Navbar = () => {
           <span className="text-2xl font-bold text-foreground">Stumpvizz</span>
         </Link>
         <div className="flex flex-1 items-center space-x-6 text-sm font-medium">
-          <SearchBar />
+          {/* <SearchBar /> */}
           <NavLinks />
         </div>
         <Button
