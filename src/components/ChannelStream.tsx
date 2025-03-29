@@ -90,15 +90,41 @@ const ChannelStream = () => {
     };
 
     checkAvailability();
-    const interval = setInterval(checkAvailability, 60000); // Check every minute
+    const interval = setInterval(checkAvailability, 60000); 
 
     return () => clearInterval(interval);
   }, [channel, toast]);
 
+  useEffect(() => {
+    const removeAds = () => {
+      const adSelectors = [
+        "iframe[src*='ads']", 
+        "div[id*='ad']", 
+        "div[class*='ad']",
+        "ins", 
+        "script[src*='ads']"
+      ];
+
+      adSelectors.forEach((selector) => {
+        document.querySelectorAll(selector).forEach((el) => {
+          el.remove();
+          console.log(`Removed ad: ${selector}`);
+        });
+      });
+    };
+    const observer = new MutationObserver(() => {
+      removeAds();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, []);
+
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
-        <h2 className="text-2xl font-bold">Loading...</h2>
+        <h2 className="text-2xl font-bold">Hold on Tight!</h2>
       </div>
     );
   }

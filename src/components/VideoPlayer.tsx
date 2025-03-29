@@ -1,21 +1,72 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 interface VideoPlayerProps {
   src?: string;
   poster?: string;
   isLive?: boolean;
-  isIframe?: boolean; // New prop to determine if it's an iframe
+  isIframe?: boolean; 
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, poster, isLive, isIframe }) => {
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+
+  useEffect(() => {
+    if (!isIframe || !iframeRef.current) return;
+
+    const blockRedirects = () => {
+      const iframe = iframeRef.current;
+      
+      if (iframe && iframe.contentWindow) {
+        try {
+          const observer = new MutationObserver(() => {
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+
+            if (iframeDoc) {
+              // Block all navigation attempts inside the iframe
+              iframeDoc.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log("Blocked navigation attempt.");
+              });
+
+              // Override window.open to prevent new tab redirects
+              iframe.contentWindow.open = () => {
+                console.log("Blocked new tab redirect.");
+                return null;
+              };
+
+              // Override top-level navigation attempts
+              iframe.contentWindow.location.assign = () => {
+                console.log("Blocked top-level navigation.");
+              };
+              iframe.contentWindow.location.replace = () => {
+                console.log("Blocked location replace.");
+              };
+            }
+          });
+
+          observer.observe(iframe, { childList: true, subtree: true });
+        } catch (error) {
+          console.error("Failed to block redirects:", error);
+        }
+      }
+    };
+
+    const interval = setInterval(blockRedirects, 1000);
+
+    return () => clearInterval(interval);
+  }, [isIframe]);
+
   return (
     <div className="relative w-full aspect-video bg-cricket-navy rounded-lg overflow-hidden">
       {isIframe ? (
         <iframe
-          src={src} // Load the HTML page inside the iframe
+          ref={iframeRef}
+          src={src}
           width="100%"
           height="100%"
           style={{ border: "none" }}
+          sandbox="allow-scripts allow-same-origin" 
           allowFullScreen
         ></iframe>
       ) : src ? (
