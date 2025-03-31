@@ -2,10 +2,11 @@
 
 **StumpVizz** is a high-quality, ad-free cricket live-streaming platform. It offers real-time streaming of cricket matches with smooth playback and a clean UI, enhancing the viewing experience.
 
-![Screenshot 1](public/images/screenshot-1.jpeg)
-![Screenshot 2](public/images/screenshot-2.jpeg)
-![Screenshot 2](public/images/screenshot-3.jpeg)
-
+![](public/images/screenshot-1.jpeg)
+![](public/images/screenshot-2.jpeg)
+![](public/images/screenshot-3.jpeg)
+![](public/images/screenshot-4.jpeg)
+![](public/images/screenshot-5.jpeg)
 
 ## 🌟 Features
 
