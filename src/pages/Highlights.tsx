@@ -1,4 +1,5 @@
-/*import { useState } from "react";
+
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { Card } from "@/components/ui/card";
 import {
@@ -8,49 +9,52 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
-
-const highlights = [
-  {
-    id: "1",
-    title: "India vs Australia - T20 World Cup 2024",
-    matches: [
-      {
-        id: "1-1",
-        videoId: "dQw4w9WgXcQ",
-        date: "2024-03-15",
-        description: "Match Highlights - India's Victory"
-      },
-      {
-        id: "1-2",
-        videoId: "dQw4w9WgXcQ",
-        date: "2024-03-10",
-        description: "Best Moments - Group Stage"
-      }
-    ]
-  },
-  {
-    id: "2",
-    title: "England vs South Africa - Test Series 2024",
-    matches: [
-      {
-        id: "2-1",
-        videoId: "dQw4w9WgXcQ",
-        date: "2024-03-05",
-        description: "Day 5 Highlights - Final Test"
-      }
-    ]
-  }
-];
+import { ArrowBigLeft, ArrowBigRight, Trophy } from "lucide-react";
+import { menHighlightChannels } from "@/config/men-highlights-channels";
+import VideoPlayer from "@/components/VideoPlayer";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const HighlightsPage = () => {
   const [activeVideos, setActiveVideos] = useState<Record<string, boolean>>({});
+  const isMobile = useIsMobile();
 
-  const toggleVideo = (matchId: string) => {
+  const toggleVideo = (matchId: string, url: string) => {
+    // Check if it's a Hotstar link and handle accordingly
+    if (isHotstarUrl(url)) {
+      handleHotstarRedirect(url);
+      return;
+    }
+    
     setActiveVideos(prev => ({
       ...prev,
       [matchId]: !prev[matchId]
     }));
+  };
+  const isHotstarUrl = (url: string): boolean => {
+    return url.includes('hotstar.com');
+  };
+
+  const handleHotstarRedirect = (url: string) => {
+    window.open(url, '_blank');
+  };
+  const highlightsByTournament = menHighlightChannels.reduce((acc, highlight) => {
+    if (!acc[highlight.tournament]) {
+      acc[highlight.tournament] = [];
+    }
+    acc[highlight.tournament].push(highlight);
+    return acc;
+  }, {} as Record<string, typeof menHighlightChannels>);
+
+  //function to determine if URL is YouTube
+  const isYouTubeUrl = (url: string): boolean => {
+    return url.includes('youtube.com') || url.includes('youtu.be');
+  };
+
+  //function to extract YouTube video ID
+  const getYouTubeVideoId = (url: string): string => {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : "";
   };
 
   return (
@@ -61,20 +65,26 @@ const HighlightsPage = () => {
           Match Highlights
         </h1>
         <div className="space-y-12">
-          {highlights.map((series) => (
-            <div key={series.id} className="space-y-6 animate-fade-in">
-              <h2 className="text-2xl font-semibold text-card-foreground">{series.title}</h2>
+          {Object.entries(highlightsByTournament).map(([tournament, highlights]) => (
+            <div key={tournament} className="space-y-6 animate-fade-in">
+              <div className="flex items-center gap-2">
+                <Trophy className="h-6 w-6 text-cricket-orange" />
+                <h2 className="text-2xl font-semibold text-card-foreground">{tournament}</h2>
+              </div>
               <Carousel className="w-full">
                 <CarouselContent>
-                  {series.matches.map((match) => (
-                    <CarouselItem key={match.id} className="md:basis-1/2 lg:basis-1/3">
+                  {highlights.map((highlight) => (
+                    <CarouselItem key={highlight.id} className="md:basis-1/2 lg:basis-1/3">
                       <Card className="overflow-hidden bg-card border-white/10 transition-all duration-300 hover:bg-card/80">
-                        <div className="aspect-video relative cursor-pointer" onClick={() => toggleVideo(match.id)}>
-                          {!activeVideos[match.id] ? (
+                        <div 
+                          className="aspect-video relative cursor-pointer" 
+                          onClick={() => toggleVideo(highlight.id, highlight.url)}
+                        >
+                          {!activeVideos[highlight.id] ? (
                             <>
                               <img
-                                src={`https://img.youtube.com/vi/${match.videoId}/maxresdefault.jpg`}
-                                alt={match.description}
+                                src={highlight.thumbnail}
+                                alt={`${highlight.team1} vs ${highlight.team2}`}
                                 className="w-full h-full object-cover transition-opacity hover:opacity-90"
                               />
                               <div className="absolute inset-0 flex items-center justify-center">
@@ -82,20 +92,33 @@ const HighlightsPage = () => {
                                   <div className="w-0 h-0 border-t-8 border-t-transparent border-l-[16px] border-l-white border-b-8 border-b-transparent ml-1" />
                                 </div>
                               </div>
+                              {isHotstarUrl(highlight.url) && (
+                                <div className="absolute bottom-4 right-4 bg-black/70 text-white px-2 py-1 rounded text-xs">
+                                  Hotstar
+                                </div>
+                              )}
                             </>
                           ) : (
-                            <iframe
-                              className="w-full h-full"
-                              src={`https://www.youtube.com/embed/${match.videoId}?autoplay=1`}
-                              title={match.description}
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
-                            />
+                            isYouTubeUrl(highlight.url) ? (
+                              <iframe
+                                className="w-full h-full"
+                                src={`https://www.youtube.com/embed/${getYouTubeVideoId(highlight.url)}?autoplay=1`}
+                                title={highlight.description}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                              />
+                            ) : (
+                              <VideoPlayer 
+                                src={highlight.url} 
+                                poster={highlight.thumbnail} 
+                              />
+                            )
                           )}
                         </div>
                         <div className="p-4">
-                          <h3 className="font-medium mb-2 text-card-foreground">{match.description}</h3>
-                          <p className="text-sm text-muted-foreground">{match.date}</p>
+                          <h3 className="font-medium mb-1 text-card-foreground">{highlight.team1} vs {highlight.team2}</h3>
+                          <p className="text-sm mb-2 text-card-foreground">{highlight.description}</p>
+                          <p className="text-xs text-muted-foreground">{highlight.date}</p>
                         </div>
                       </Card>
                     </CarouselItem>
@@ -113,26 +136,6 @@ const HighlightsPage = () => {
             </div>
           ))}
         </div>
-      </div>
-    </div>
-  );
-};
-
-export default HighlightsPage;
-*/
-
-
-
-//cooking page
-
-import Navbar from "@/components/Navbar";
-
-const HighlightsPage = () => {
-  return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Navbar />
-      <div className="flex-grow flex items-center justify-center">
-        <h1 className="text-4xl font-bold text-foreground">Page is cooking...</h1>
       </div>
     </div>
   );
