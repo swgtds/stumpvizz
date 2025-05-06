@@ -13,6 +13,8 @@ import { ArrowBigLeft, ArrowBigRight, Trophy } from "lucide-react";
 import { menHighlightChannels } from "@/config/men-highlights-channels";
 import VideoPlayer from "@/components/VideoPlayer";
 import { useIsMobile } from "@/hooks/use-mobile";
+import LiveMatchAlert from "@/components/LiveMatchAlert";
+import LiveBanner from "@/components/LiveBanner";
 
 const HighlightsPage = () => {
   const [activeVideos, setActiveVideos] = useState<Record<string, boolean>>({});
@@ -60,7 +62,9 @@ const HighlightsPage = () => {
   return (
     <div className="min-h-screen bg-background transition-colors duration-300">
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
+      <LiveMatchAlert />
+      <div className="container mx-auto px-4 py-4">
+      <LiveBanner />
         <h1 className="text-4xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-cricket-green to-cricket-orange">
           Match Highlights
         </h1>
