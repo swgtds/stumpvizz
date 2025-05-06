@@ -3,94 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="" rel="icon" type="image/x-icon" />
-    <title> Live</title>
+    <title>Star Sports 1</title>
     <style>
-        .video-js {
-            width: 100%;
-            height: 100%;
-        }
         body {
-            text-align: center;
-            margin: 0;
-        }
-        #videojs {
-            width: 100%;
-            height: 100%;
-        }
-        .streaming-dimensions {
-            width: 100% !important;
-            height: 100% !important;
-        }
-        #container {
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
-            background: #8a0000;
+            background: linear-gradient(135deg, #242424, #3b5998);
             color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .player-container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 20px auto;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
             overflow: hidden;
+            background: #000;
+            position: relative;
         }
-        #iframe, #jwPlayer {
-            height: 100vh !important;
-            padding: 0;
-            margin: 0;
-        }
-        body {
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-        }
-        #container {
-            position: absolute;
-            text-align: center;
-        }
-        video {
-            outline: 0;
-        }
-        #text {
-            position: fixed;
-            border: 0;
-            left: 0;
+
+        .player-container iframe {
+            border-radius: 15px;
             width: 100%;
-            color: #fff;
-            bottom: 50px;
-            text-align: center;
-            font-family: tahoma;
-            font-size: 20px;
-            z-index: 9999;
+            height: 100%;
         }
+
+
+
+        
     </style>
-    <script src="https://yosintv3.github.io/player/SAHhwvZq.js"></script>
-    <script src="https://yosintv3.github.io/player/jwplayer.js"></script>
 </head>
-<body onload="init()">
-    <div id="jwPlayer"></div>
-    <script>
-        // Hardcoded M3U8 URL
-        const hardcodedUrl = "https://v18tataplaysyndication.akamaized.net/bpk-tv/Sports18_1_HD_voot_MOB/output03/hdntl=exp=1742896136~acl=%2F*~data=hdntl~hmac=92d2f2b1192cd44cfd3b95fe38a2ca6d5a68cefc4daa01ef25cf72618d6c0417/Sports18_1_HD_voot_MOB-audio_108038_eng=108000-video=2297600.m3u8";        // Setup JW Player with autoplay
-        jwplayer("jwPlayer").setup({
-            file: hardcodedUrl,
-            width: "100%",
-            height: "100%",
-            stretching: "uniform",
-            autostart: true, // Enable autoplay
-        });
-    </script>
+<body>
+    
+    <!-- Video Player Section -->
+    <div class="player-container">
+        <div style="position:relative;padding-top:56.25%;">
+            <iframe  
+            src="https://vimeo.com/event/5027375/embed" 
+            frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
+            allowfullscreen 
+            style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:15px;"></iframe>
+        </div>
+    </div>
+    
 
 </script>
 </body>
-    <script type="text/javascript">
-	atOptions = {
-		'key' : '606e9b2600d90b868cc5baa3430c4328',
-		'format' : 'iframe',
-		'height' : 90,
-		'width' : 728,
-		'params' : {}
-	};
-</script>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
 </html>

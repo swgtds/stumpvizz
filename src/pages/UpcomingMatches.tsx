@@ -1,9 +1,12 @@
+import React from 'react';
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import MatchCard from "@/components/MatchCard";
-import { fetchChannels } from "@/config/channels"; // Fetch men's matches dynamically
-import { fetchWomenChannels } from "@/config/women-channels"; // Fetch women's matches dynamically
+import { fetchChannels } from "@/config/channels"; 
+import { fetchWomenChannels } from "@/config/women-channels"; 
 import { format, isAfter, isEqual, parse } from "date-fns";
+import LiveMatchAlert from "@/components/LiveMatchAlert";
+import LiveBanner from "@/components/LiveBanner";
 
 const UpcomingMatchesPage = () => {
   const [currentTime, setCurrentTime] = useState(format(new Date(), "HH:mm"));
@@ -80,7 +83,9 @@ const UpcomingMatchesPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
+      <LiveMatchAlert />
+      <div className="container mx-auto px-4 py-4">
+      <LiveBanner />
         <h1 className="text-4xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-cricket-green to-cricket-orange">
           Upcoming Matches
         </h1>
