@@ -11,11 +11,13 @@ export interface Channel {
     thumbnail: string;
   };
 };
-
-// Fetch men's matches from backend
 export const fetchChannels = async (): Promise<Channel[]> => {
   try {
-    const response = await fetch("http://localhost:5000/api/men-matches"); // Update with correct backend URL
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    if (!backendUrl) {
+      throw new Error("Backend URL is not defined in environment variables.");
+    }
+    const response = await fetch(`${backendUrl}/api/men-matches`);
     if (!response.ok) {
       throw new Error("Failed to fetch men's matches");
     }

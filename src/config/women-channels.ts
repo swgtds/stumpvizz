@@ -1,9 +1,12 @@
 import { Channel } from "@/config/channels";
 
-// Fetch women's matches from backend
 export const fetchWomenChannels = async (): Promise<Channel[]> => {
   try {
-    const response = await fetch("http://localhost:5000/api/women-matches"); // Update with correct backend URL
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    if (!backendUrl) {
+      throw new Error("Backend URL is not defined in environment variables.");
+    }
+    const response = await fetch(`${backendUrl}/api/women-matches`);
     if (!response.ok) {
       throw new Error("Failed to fetch women's matches");
     }
